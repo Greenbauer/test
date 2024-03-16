@@ -4,11 +4,11 @@ import { Button, Typography } from "@mui/material";
 import { getTimeFromNow } from "@/utils/format";
 import { QuestionAnswer } from "@mui/icons-material";
 
-interface CommentProps {
+interface CommentSectionProps {
   comment: Comment;
 }
 
-function Comment({ comment }: CommentProps) {
+function CommentSection({ comment }: CommentSectionProps) {
   const { displayName, text, createdAt } = comment;
 
   const timeFromNow = getTimeFromNow(createdAt); 
@@ -40,24 +40,28 @@ function Comment({ comment }: CommentProps) {
   );
 }
 
-interface CommentsProps {
+interface CommentSectionsProps {
   parentComments: Comment[];
   comments: Comment[];
 }
 
-export default function Comments({ parentComments, comments }: CommentsProps) {
-  return parentComments?.map((parentComment) => {
-    const { commentId } = parentComment;
-    const childrenComments = comments.filter(({ parentId }) => parentId === commentId);
+export default function CommentSections({ parentComments, comments }: CommentSectionsProps) {
+  return (
+    <>
+      {parentComments?.map((parentComment) => {
+        const { commentId } = parentComment;
+        const childrenComments = comments.filter(({ parentId }) => parentId === commentId);
 
-    return (
-      <>
-        <Comment key={commentId} comment={parentComment} />
-        <div className="pl-8">
-          <Comments parentComments={childrenComments} comments={comments} />
-        </div>
-      </>
-    )
-  })
+        return (
+          <>
+            <CommentSection key={commentId} comment={parentComment} />
+            <div className="pl-8">
+              <CommentSections parentComments={childrenComments} comments={comments} />
+            </div>
+          </>
+        )
+      })}
+    </>
+  )
 }
 

@@ -5,8 +5,8 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import { Button, CircularProgress, Typography } from "@mui/material";
 import { getTimeFromNow } from "@/utils/format";
-import { Suspense, useState } from "react";
-import Comments from "@/components/Comments";
+import { Fragment, Suspense, useState } from "react";
+import CommentSections from "@/components/CommentSections";
 import useInfiniteScroll from "@/hooks/useInfiniteScroll";
 import usePosts from "@/hooks/usePosts";
 import { Bookmark, Favorite, QuestionAnswer } from "@mui/icons-material";
@@ -43,8 +43,8 @@ export default function Home() {
               const parentComments = comments.filter(({ parentId }) => !parentId);
 
               return (
-                <>
-                  <Card key={postId} raised className="bg-light" ref={infiniteScrollRef}>
+                <Fragment key={postId}>
+                  <Card  raised className="bg-light" ref={infiniteScrollRef}>
                     <CardContent>
                       <Typography variant="h5" gutterBottom>
                         {title}
@@ -81,11 +81,11 @@ export default function Home() {
                   </Card>
                   {showComments && !!parentComments.length && (
                     <Card raised className="bg-light">
-                      <Comments parentComments={parentComments} comments={comments} />
+                      <CommentSections parentComments={parentComments} comments={comments} />
                     </Card>
                   )}
                   {/* TODO: use react-hook-form to build reusable form field components and build an add comment section */}
-                </>
+                </Fragment>
               )
             })}
           </Suspense>
