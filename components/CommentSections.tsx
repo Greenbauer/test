@@ -3,6 +3,7 @@ import CardContent from '@mui/material/CardContent';
 import { Button, Typography } from "@mui/material";
 import { getTimeFromNow } from "@/utils/format";
 import { QuestionAnswer } from "@mui/icons-material";
+import { Fragment } from "react";
 
 interface CommentSectionProps {
   comment: Comment;
@@ -53,12 +54,12 @@ export default function CommentSections({ parentComments, comments }: CommentSec
         const childrenComments = comments.filter(({ parentId }) => parentId === commentId);
 
         return (
-          <>
-            <CommentSection key={commentId} comment={parentComment} />
+          <Fragment key={commentId}>
+            <CommentSection comment={parentComment} />
             <div className="pl-8">
               <CommentSections parentComments={childrenComments} comments={comments} />
             </div>
-          </>
+          </Fragment>
         )
       })}
     </>
