@@ -1,25 +1,9 @@
 from fastapi import FastAPI
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
-from fastapi.middleware.cors import CORSMiddleware
 import json
 
 app = FastAPI()
-
-origins = [
-  "https://test-iurkozn3t-greenbauer.vercel.app",
-  "http://localhost",
-  "http://localhost:8080",
-]
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
 
 @app.get("/api/data", response_class=JSONResponse)
 async def get_data(page: int = 1, limit: int = 10):
